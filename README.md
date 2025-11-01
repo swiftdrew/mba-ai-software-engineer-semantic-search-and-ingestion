@@ -33,28 +33,25 @@ Para executar este projeto, você precisará ter as seguintes ferramentas instal
 
 Siga estes passos na ordem correta para configurar e executar o projeto.
 
-1. Clonar o Repositório
+1. Clonar o repositorio 
 
 ```bash
 git clone [https://github.com/](https://github.com/)[SEU_USUARIO]/[NOME_DO_REPOSITORIO].git
 cd [NOME_DO_REPOSITORIO]
-
----
+```
 
 2. Configurar o Ambiente Virtual
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-
----
+```
 
 3. Instalar as Dependências
 
 ```bash
 pip install -r requirements.txt
-
----
+```
 
 4. Configurar as Variáveis de Ambiente (Passo Crítico)
 
@@ -63,15 +60,13 @@ Copie o template .env.example para criar seu arquivo .env local. Este arquivo é
 
 ```bash
 cp .env.example .env
-
----
+```
 
 5. Iniciar o Banco de Dados (Docker)
 
 ```bash
 docker compose up -d
-
----
+```
 
 6. Executar a Ingestão do PDF
 
@@ -83,30 +78,28 @@ O padrão do repositório é "openai".
 
 ```bash
 python src/ingest.py
-
----
+```
 
 7. Iniciar o Chat (CLI)
 
 ```bash
 python src/chat.py
+```
 
----
-
-Exemplo de Uso e Validação
+## Exemplo de Uso e Validação
 Para validar que o sistema está funcionando conforme os requisitos, utilize os testes abaixo:
 
-Teste 1: Pergunta Dentro do Contexto
+#### Teste 1: Pergunta Dentro do Contexto
 PERGUNTA: Qual o faturamento da Empresa SuperTechIABrazil?
 
 RESPOSTA: O faturamento consolidado da Empresa SuperTechIABrazil no ano fiscal de 2023 atingiu a marca de 10 milhões de reais.
 
-Teste 2: Pergunta Fora do Contexto
+#### Teste 2: Pergunta Fora do Contexto
 PERGUNTA: Quantos clientes temos em 2024?
 
 RESPOSTA: Não tenho informações necessárias para responder sua pergunta.
 
-Teste 3: Pergunta de Conhecimento Geral (Fora do Contexto)
+#### Teste 3: Pergunta de Conhecimento Geral (Fora do Contexto)
 PERGUNTA: Qual a capital da França?
 
 RESPOSTA: Não tenho informações necessárias para responder sua pergunta.
