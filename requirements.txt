@@ -1,0 +1,9 @@
+# requirements.txt
+langchain
+langchain-openai
+langchain-google-genai
+langchain-postgres
+langchain-community
+pypdf
+psycopg2-binary
+python-dotenv
