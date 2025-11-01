@@ -1,111 +1,99 @@
-Desafio Técnico: Ingestão e Busca Semântica com LangChain e pgVector
+# Desafio Técnico: Ingestão e Busca Semântica com LangChain e pgVector
+
 Este projeto implementa um pipeline completo de RAG (Retrieval-Augmented Generation) focado em responder perguntas com base em um documento PDF.
 
 O software é capaz de:
+1.  **Ingestão:** Ler um arquivo PDF (`document.pdf`), dividi-lo em *chunks*, gerar *embeddings* (vetores) e armazená-los em um banco de dados PostgreSQL com a extensão `pgVector`.
+2.  **Busca:** Permitir que um usuário faça perguntas via CLI (linha de comando) e receber respostas geradas por uma LLM (OpenAI ou Gemini), com base *estritamente* no contexto encontrado no documento.
 
-Ingestão: Ler um arquivo PDF (document.pdf), dividi-lo em chunks, gerar embeddings (vetores) e armazená-los em um banco de dados PostgreSQL com a extensão pgVector.
+---
 
-Busca: Permitir que um usuário faça perguntas via CLI (linha de comando) e receber respostas geradas por uma LLM (OpenAI ou Gemini), com base estritamente no contexto encontrado no documento.
+## ⚙️ Tecnologias Utilizadas
 
-⚙️ Tecnologias Utilizadas
-Linguagem: Python 3.9+
+* **Linguagem:** Python 3.9+
+* **Framework:** LangChain
+* **Banco de Dados:** PostgreSQL + pgVector
+* **Orquestração:** Docker & Docker Compose
+* **APIs de IA:** OpenAI (Embeddings & Chat) ou Google Gemini (Embeddings & Chat)
 
-Framework: LangChain
+---
 
-Banco de Dados: PostgreSQL + pgVector
+## 🔧 Pré-requisitos
 
-Orquestração: Docker & Docker Compose
-
-APIs de IA: OpenAI (Embeddings & Chat) ou Google Gemini (Embeddings & Chat)
-
-🔧 Pré-requisitos
 Para executar este projeto, você precisará ter as seguintes ferramentas instaladas em sua máquina:
 
-Python 3.9 ou superior
+* **Python 3.9 ou superior**
+* **Docker e Docker Compose**
+* **Uma Chave de API da OpenAI:** É necessário ter uma conta na [OpenAI Platform](https://platform.openai.com/) com faturamento ativo (mínimo de $5 em créditos) para que a API de embeddings funcione.
+* **(Opcional) Uma Chave de API do Google Gemini:** Como alternativa, você pode usar uma API Key do [Google AI Studio](https://aistudio.google.com/) com faturamento habilitado no Google Cloud.
 
-Docker e Docker Compose
+---
 
-Uma Chave de API da OpenAI: É necessário ter uma conta na OpenAI Platform com faturamento ativo (mínimo de $5 em créditos) para que a API de embeddings funcione.
+## 🚀 Guia de Instalação e Execução
 
-(Opcional) Uma Chave de API do Google Gemini: Como alternativa, você pode usar uma API Key do Google AI Studio com faturamento habilitado no Google Cloud.
-
-🚀 Guia de Instalação e Execução
 Siga estes passos na ordem correta para configurar e executar o projeto.
 
 1. Clonar o Repositório
-Bash
 
-git clone https://github.com/[SEU_USUARIO]/[NOME_DO_REPOSITORIO].git
+```bash
+git clone [https://github.com/](https://github.com/)[SEU_USUARIO]/[NOME_DO_REPOSITORIO].git
 cd [NOME_DO_REPOSITORIO]
+
+---
+
 2. Configurar o Ambiente Virtual
-Recomenda-se usar um ambiente virtual para isolar as dependências do projeto.
 
-Bash
-
-# Criar o ambiente virtual
+```bash
 python3 -m venv venv
-
-# Ativar o ambiente (Linux/macOS)
 source venv/bin/activate
+
+---
+
 3. Instalar as Dependências
-Instale todas as bibliotecas Python necessárias:
 
-Bash
-
+```bash
 pip install -r requirements.txt
-4. Configurar as Variáveis de Ambiente (Passo Crítico)
-As chaves de API e a conexão com o banco são gerenciadas por variáveis de ambiente.
 
+---
+
+4. Configurar as Variáveis de Ambiente (Passo Crítico)
+
+As chaves de API e a conexão com o banco são gerenciadas por variáveis de ambiente.
 Copie o template .env.example para criar seu arquivo .env local. Este arquivo é ignorado pelo Git e nunca será comitado.
 
-Bash
-
+```bash
 cp .env.example .env
-Abra o arquivo .env com seu editor de texto e preencha com suas próprias chaves de API.
 
-Ini, TOML
+---
 
-# .env
-
-# Adicione sua chave da OpenAI (requer faturamento ativo)
-OPENAI_API_KEY="sk-..."
-
-# (Opcional) Adicione sua chave do Google
-GOOGLE_API_KEY="AIza..."
-
-# Esta string já está correta para o docker-compose.yml fornecido
-DB_CONNECTION_STRING="postgresql+psycopg2://postgres:postgres@localhost:5432/postgres"
 5. Iniciar o Banco de Dados (Docker)
-Certifique-se de que seu aplicativo Docker Desktop esteja em execução.
 
-Bash
-
+```bash
 docker compose up -d
-Este comando irá baixar a imagem pgvector/pgvector:pg16 e iniciar o container do banco de dados em segundo plano.
+
+---
 
 6. Executar a Ingestão do PDF
+
 Este script irá ler o document.pdf, processá-lo e salvar os vetores no banco de dados.
 
 Importante: O script de ingestão (src/ingest.py) e o script de busca (src/search.py) possuem uma variável PROVIDER no topo do arquivo. Ela deve ser definida como "openai" ou "gemini". O provedor deve ser o mesmo em ambos os arquivos.
 
 O padrão do repositório é "openai".
 
-Execute o script de ingestão:
-
-Bash
-
+```bash
 python src/ingest.py
-Aguarde a saída "--- Ingestão Concluída com Sucesso ---"
+
+---
 
 7. Iniciar o Chat (CLI)
-Agora você pode iniciar o assistente de perguntas e respostas.
 
-Bash
-
+```bash
 python src/chat.py
-Aguarde a saída "--- Assistente pronto. Faça sua pergunta. ---"
 
-🧪 Exemplo de Uso e Validação
+---
+
+Exemplo de Uso e Validação
 Para validar que o sistema está funcionando conforme os requisitos, utilize os testes abaixo:
 
 Teste 1: Pergunta Dentro do Contexto
